@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Мови програмування та студенти</title>
+    <style>
+        #content {
+            background-color: yellow;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        .link {
+            margin-right: 20px;
+            cursor: pointer;
+            color: blue;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <span class="link" onclick="loadContent('1.txt', 'languages')">мови</span>
+    <span class="link" onclick="loadContent('2.txt', 'students')">студенти</span>
+    <div id="content"></div>
+    
+    <script>
+        function loadContent(file, key) {
+            fetch(file)
+                .then(response => response.json())
+                .then(data => {
+                    const contentDiv = document.getElementById('content');
+                    const list = data[key];
+                    let html = '<ul>';
+                    list.forEach(item => {
+                        html += `<li>${item}</li>`;
+                    });
+                    html += '</ul>';
+                    contentDiv.innerHTML = html;
+                })
+                .catch(error => {
+                    console.error('Помилка завантаження файлу:', error);
+                    document.getElementById('content').innerHTML = 'Помилка завантаження даних';
+                });
+        }
+    </script>
+</body>
+</html>
